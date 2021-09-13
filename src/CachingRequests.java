@@ -14,8 +14,9 @@ public class CachingRequests {
         String typeRequest = "";
         int timeRequest = 0;
         Set<String> keys;
-        ArrayList answer = new ArrayList();
+        LinkedList <String> answer = new LinkedList <>();
         String text = "";
+        int iterator =0;
         do {
             str = r.readLine();
             if (str == null || str.length() == 0) {
@@ -33,7 +34,8 @@ public class CachingRequests {
                 timeRequest = Integer.parseInt(foo[1]);
                 if (requestAndTime.isEmpty()) {
                     requestAndTime.put(typeRequest, timeRequest);
-                    text = "PUT " + typeRequest;
+                    iterator++;
+                    text = iterator +" PUT " + typeRequest;
                     answer.add(text);
                 } else {
                     if (requestAndTime.size() < cashSize) {
@@ -41,13 +43,15 @@ public class CachingRequests {
                         if (!keys.contains(typeRequest)) {
 //                            System.out.println("добавили " + typeRequest + " " + timeRequest);
                             requestAndTime.put(typeRequest, timeRequest);
-                            text = "PUT " + typeRequest;
+                            iterator++;
+                            text = iterator +" PUT " + typeRequest;
                             answer.add(text);
                         } else {
 //                            System.out.println("Уже есть такой ключ " + typeRequest);
                             if (requestAndTime.get(typeRequest) < timeRequest) {
                                 requestAndTime.put(typeRequest, timeRequest);
-                                text = "UPDATE " + typeRequest;
+                                iterator++;
+                                text = iterator+ " UPDATE " + typeRequest;
                                 answer.add(text);
                             }
                         }
@@ -67,14 +71,16 @@ public class CachingRequests {
                         keys = requestAndTime.keySet();
                         if (keys.contains(typeRequest) && requestAndTime.get(typeRequest) < timeRequest) {
                             requestAndTime.put(typeRequest, timeRequest);
-                            text = "UPDATE " + typeRequest;
+                            iterator++;
+                            text = iterator+ " UPDATE " + typeRequest;
                             answer.add(text);
                         } else {
                             if (requestAndTime.get(minKeys) < timeRequest) {
-                                text = "DELETE " + minKeys;
+                                iterator++;
+                                text =iterator+ " DELETE " + minKeys;
                                 answer.add(text);
                                 requestAndTime.remove(minKeys);
-                                text = "PUT " + typeRequest;
+                                text =iterator+ " PUT " + typeRequest;
                                 answer.add(text);
                                 requestAndTime.put(typeRequest, timeRequest);
                             }
@@ -85,12 +91,14 @@ public class CachingRequests {
 
         }
         while (r.ready());
-       for(int i=0 ; i<answer.size();i++){
-           System.out.println((i+1)+ " "+ answer.get(i));
-       }
+        for (Object o : answer) {
+            System.out.println(o);
+        }
+
+        r.close();
     }
 
-    static String getMapKeyWithMinValue(HashMap<String, Integer> map) {
+    static public String getMapKeyWithMinValue(HashMap<String, Integer> map) {
         String keyWithMinimumVal = "";
 
         // getting the maximum value in the Hashmap

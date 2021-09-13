@@ -5,14 +5,13 @@ import java.util.Date;
 import java.util.LinkedList;
 
 public class MonitorLogos {
-
     public static void main(String[] args) throws Exception {
         BufferedReader r = new BufferedReader(
                 new InputStreamReader(System.in));
         int timeLimit = 0;
         short erorrsLimit = 0;
         LinkedList <Long> timeList = new LinkedList<>();
-        LinkedList <String> statusList = new LinkedList <>();
+//        LinkedList <String> statusList = new LinkedList <>();
         int errors = 0;
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int findErros = -1;
@@ -25,15 +24,14 @@ public class MonitorLogos {
                 continue;
             }
 
-
             if (timeLimit == 0 && erorrsLimit == 0) {
                 String[] foo = str.split(" ");
                 timeLimit = Integer.parseInt(foo[0]) * 1000;
                 erorrsLimit = Short.parseShort((foo[1]));
             } else {
                 if (str.contains("ERROR")) {
-                    String status = str.substring(21);
-                    statusList.add(status);
+//                    String status = str.substring(21);
+//                    statusList.add(status);
                     String temp = str.substring(1, 20);
                     long timeError = formatForDateNow.parse(temp).getTime();
                     timeList.add(timeError);
@@ -51,13 +49,10 @@ public class MonitorLogos {
                             answer.setTime(timeForCriticalError);
                             System.out.println(formatForDateNow.format(answer));
                             return;
-//
                         }
-
                     }
                 }
             }
-
         }
         while (r.ready());
 
